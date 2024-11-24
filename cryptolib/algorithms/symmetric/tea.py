@@ -1,7 +1,7 @@
 import struct
 import typing
-from .. import modes
-from ..cipher import BlockCipherAlgorithm
+from ... import modes
+from ...cipher import BlockCipherAlgorithm
 
 
 class TEA(BlockCipherAlgorithm):
