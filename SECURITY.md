@@ -29,4 +29,4 @@ We will respond to your report within **5 business days** and work on a resoluti
 
 It is recommended that all users read this file before installation and usage for proper notice, protection, and protocol. All users should **adhere** to these requirements for cryptographical safety. Those who don't can be considered a **threat** and are a **liability** to the security of this package.
 
-## **Users linked to "leaks" of security issues or attacks may face consequences.**
+### **Users linked to "leaks" of security issues or attacks may face consequences.**
