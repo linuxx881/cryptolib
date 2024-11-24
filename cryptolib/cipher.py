@@ -45,6 +45,6 @@ class BlockCipherAlgorithm(metaclass=abc.ABCMeta):
         return block
 
     @abc.abstractmethod
-    def _encrypt_iv(self, iv: bytes) -> bytes:
+    def encrypt_iv(self, iv: bytes) -> bytes:
         """Encrypt an IV (Initialization Vector). This is only practically used during CFB (Cipher Feedback) and OFB (Output Feedback) modes."""
         pass

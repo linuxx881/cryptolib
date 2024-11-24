@@ -80,7 +80,7 @@ class TEA(BlockCipherAlgorithm):
             block = bytes(a ^ b for a, b in zip(block, iv))
         elif isinstance(mode, (modes.CFB, modes.OFB)):
             # CFB/OFB Mode: Encrypt the IV, XOR with plaintext to create ciphertext
-            encrypted_iv = self._encrypt_iv(iv)
+            encrypted_iv = self.encrypt_iv(iv)
             block = bytes(a ^ b for a, b in zip(block, encrypted_iv))
         elif isinstance(mode, modes.ECB):
             pass
@@ -165,7 +165,7 @@ class TEA(BlockCipherAlgorithm):
             decrypted_block = bytes(a ^ b for a, b in zip(decrypted_block, iv))
         elif isinstance(mode, (modes.CFB, modes.OFB)):
             # CFB/OFB Mode: XOR the ciphertext block with the encrypted IV to recover plaintext
-            encrypted_iv = self._encrypt_iv(iv)
+            encrypted_iv = self.encrypt_iv(iv)
             decrypted_block = bytes(a ^ b for a, b in zip(block, encrypted_iv))
         elif isinstance(mode, modes.ECB):
             pass
@@ -174,11 +174,11 @@ class TEA(BlockCipherAlgorithm):
 
         return decrypted_block
 
-    def _encrypt_iv(self, iv: bytes) -> bytes:
+    def encrypt_iv(self, iv: bytes) -> bytes:
         """
-        **Internal** function to encrypt the initialization vector (IV) using the TEA (Tiny Encryption Algorithm) cipher.
+        Encrypt the initialization vector (IV) using the TEA (Tiny Encryption Algorithm) cipher.
 
-        This method is used internally to encrypt an 8-byte (64-bit) IV for modes like CFB and OFB, where the IV is
+        This method is used to encrypt an 8-byte (64-bit) IV for modes like CFB and OFB, where the IV is
         modified during encryption to facilitate the mode's operation. It performs the TEA encryption algorithm
         on the IV in the same way as it does for plaintext, ensuring that the IV is transformed for use in feedback modes.
 
@@ -193,6 +193,8 @@ class TEA(BlockCipherAlgorithm):
         """
         if not isinstance(iv, bytes):
             raise TypeError(f"'iv' must be of type 'bytes', not of type '{type(iv).__name__}'.")
+        if len(iv) != self.block_size // 8:
+            raise ValueError(f"The IV (Initialization Vector) must be {self.block_size}-bits ({self.block_size // 8}-bytes) long.")
 
         v0, v1 = struct.unpack("!2I", iv)
         s = 0
